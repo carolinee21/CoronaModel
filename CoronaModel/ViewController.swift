@@ -43,11 +43,12 @@ class ViewController: UIViewController {
     
     func getAnnotations() {
         let radiusLatLon = 0.05
+        let variance = 0.005
         let x = 4
-        for i in (-x)..<x+1 {
+        for i in (-x-2)..<x+3 {
             for j in (-x)..<x+1 {
-                let lat = centralCoord.latitude + (radiusLatLon)*Double(i)/Double(x)
-                let lon = centralCoord.longitude + (radiusLatLon)*Double(j)/Double(x)
+                let lat = centralCoord.latitude + (radiusLatLon)*Double(i)/Double(x) + Double.random(in: -variance ..< variance)
+                let lon = centralCoord.longitude + (radiusLatLon)*Double(j)/Double(x) + Double.random(in: -variance ..< variance)
                 let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                 
                 // TODO: Randomizing initial cases (placeholder)
@@ -99,7 +100,7 @@ extension ViewController: MKMapViewDelegate {
                 icon = UIImage(systemName:"checkmark.circle.fill")!.withTintColor(.systemYellow)
         }
         
-        let size = CGSize(width: 30, height: 30)
+        let size = CGSize(width: 25, height: 25)
         let image = UIGraphicsImageRenderer(size:size).image {
             _ in icon.draw(in:CGRect(origin:.zero, size:size))
         }
