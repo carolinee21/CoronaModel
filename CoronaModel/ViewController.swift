@@ -22,6 +22,9 @@ class ViewController: UIViewController {
     let regionRadius: CLLocationDistance = 10000 // meters
     
     override func viewDidLoad() {
+        
+        
+        
         super.viewDidLoad()
         mapView.delegate = self
         getAnnotations()

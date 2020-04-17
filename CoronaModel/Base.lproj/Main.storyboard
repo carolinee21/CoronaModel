@@ -73,7 +73,6 @@
                     </view>
                     <connections>
                         <outlet property="daysLabel" destination="0fd-LZ-uLj" id="WkE-eN-iVL"/>
-                        <outlet property="fatalitiesLabel" destination="v6l-66-A8M" id="rf4-31-DGj"/>
                         <outlet property="healthyLabel" destination="PVH-ie-hlh" id="qx8-tZ-PYe"/>
                         <outlet property="infectedLabel" destination="VIe-Vb-cCr" id="LWN-Ep-ilo"/>
                         <outlet property="mapView" destination="BSq-3q-kH0" id="ICQ-7F-DvX"/>

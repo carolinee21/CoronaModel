@@ -7,5 +7,6 @@ target 'CoronaModel' do
 
   # Pods for Corona Model
   pod 'Firebase/Database'
+  pod 'Firebase/Core'
 
 end
