@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		166CEDDD244D4FE900736B84 /* CoronaLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166CEDDC244D4FE900736B84 /* CoronaLogic.swift */; };
 		820F51092446588300A59340 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F51082446588300A59340 /* AppDelegate.swift */; };
 		820F510B2446588300A59340 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510A2446588300A59340 /* SceneDelegate.swift */; };
 		820F510D2446588300A59340 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510C2446588300A59340 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoronaModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		166CEDDC244D4FE900736B84 /* CoronaLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoronaLogic.swift; sourceTree = "<group>"; };
 		7DDA341EA72C89610F002A2E /* Pods-CoronaModel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoronaModel.debug.xcconfig"; path = "Target Support Files/Pods-CoronaModel/Pods-CoronaModel.debug.xcconfig"; sourceTree = "<group>"; };
 		820F51052446588300A59340 /* CoronaModel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoronaModel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		820F51082446588300A59340 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				820F51132446588500A59340 /* LaunchScreen.storyboard */,
 				820F51162446588500A59340 /* Info.plist */,
 				820F5138244669CB00A59340 /* CaseAnnotation.swift */,
+				166CEDDC244D4FE900736B84 /* CoronaLogic.swift */,
 			);
 			path = CoronaModel;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				820F510D2446588300A59340 /* ViewController.swift in Sources */,
+				166CEDDD244D4FE900736B84 /* CoronaLogic.swift in Sources */,
 				820F51092446588300A59340 /* AppDelegate.swift in Sources */,
 				820F5139244669CB00A59340 /* CaseAnnotation.swift in Sources */,
 				820F510B2446588300A59340 /* SceneDelegate.swift in Sources */,

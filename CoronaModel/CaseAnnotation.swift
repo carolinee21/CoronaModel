@@ -12,7 +12,6 @@ enum caseStatus : CaseIterable {
     case healthy
     case infected
     case recovered
-    case dead
 }
 
 class CaseAnnotation: MKPointAnnotation {
