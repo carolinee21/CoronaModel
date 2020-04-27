@@ -6,10 +6,10 @@
 //  Copyright © 2020 CarolineEvans. All rights reserved.
 //
 
-import SwiftUI
 import UIKit
 import MapKit
 import Firebase
+import SpriteKit
 
 class ViewController: UIViewController {
     @IBOutlet var mapView: MKMapView!
@@ -17,12 +17,15 @@ class ViewController: UIViewController {
     @IBOutlet var infectedLabel: UILabel!
     @IBOutlet var recoveredLabel: UILabel!
     @IBOutlet var daysLabel: UILabel!
+    @IBOutlet var GameSKView : SKView!
+    
     var healthyCount = 0
     var infectedCount = 0
     var recoveredCount = 0
     var annotations : [MKPointAnnotation] = []
     let centralCoord = CLLocationCoordinate2D(latitude: 39.950908, longitude: -75.196032)
     let regionRadius: CLLocationDistance = 1000 // meters
+    //let scene = MapScene()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,17 @@ class ViewController: UIViewController {
         compassButton.compassVisibility = .visible
         mapView.addSubview(compassButton)
         getInitialCases(numCases: 25, numSick: 1)
+//        scene.scaleMode = .aspectFill
+//        GameSKView.presentScene(scene)
+        GameSKView.allowsTransparency = true
+        GameSKView.backgroundColor = .clear
+        if let mapScene = SKScene(fileNamed: "MapScene")
+        {
+            print("oi")
+            mapScene.scaleMode = .aspectFill
+            mapScene.backgroundColor = .clear
+            GameSKView.presentScene(mapScene)
+        }
         
     }
     
@@ -193,22 +207,22 @@ class ViewController: UIViewController {
                 case .north:
                     lat += distance
                     // add some variation movement with probability function
-                    if (self.coinLandsHeads()) {
+                    if (Bool.random()) {
                         lon += sideMovement
                     }
                 case .south:
                     lat -= distance
-                    if (self.coinLandsHeads()) {
+                    if (Bool.random()) {
                         lon -= sideMovement
                     }
                 case .east:
                     lon -= distance
-                    if (self.coinLandsHeads()) {
+                    if (Bool.random()) {
                         lat += sideMovement
                     }
                 case .west:
                     lon += distance
-                    if (self.coinLandsHeads()) {
+                    if (Bool.random()) {
                         lat -= sideMovement
                     }
                 }
@@ -222,12 +236,6 @@ class ViewController: UIViewController {
         
     }
     
-    /*
-     Probabilistic helper called in animateAnnotation()
-     */
-    func coinLandsHeads() -> Bool {
-        return Double.random(in: 0...1) <= 0.5
-    }
     
     /*
      Check if the annotation is about to fly off the screen if it
