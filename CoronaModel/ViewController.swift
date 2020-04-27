@@ -6,6 +6,7 @@
 //  Copyright © 2020 CarolineEvans. All rights reserved.
 //
 
+import SwiftUI
 import UIKit
 import MapKit
 import Firebase
@@ -15,48 +16,286 @@ class ViewController: UIViewController {
     @IBOutlet var healthyLabel: UILabel!
     @IBOutlet var infectedLabel: UILabel!
     @IBOutlet var recoveredLabel: UILabel!
-    @IBOutlet var fatalitiesLabel: UILabel!
     @IBOutlet var daysLabel: UILabel!
-    var annotations : [MKAnnotation] = []
-    let centralCoord = CLLocationCoordinate2D(latitude: 39.952085, longitude: -75.194928)
-    let regionRadius: CLLocationDistance = 10000 // meters
+    var healthyCount = 0
+    var infectedCount = 0
+    var recoveredCount = 0
+    var annotations : [MKPointAnnotation] = []
+    let centralCoord = CLLocationCoordinate2D(latitude: 39.950908, longitude: -75.196032)
+    let regionRadius: CLLocationDistance = 1000 // meters
     
     override func viewDidLoad() {
-        
-        
-        
         super.viewDidLoad()
         mapView.delegate = self
-        getAnnotations()
-        self.mapView.addAnnotations(self.annotations)
+        let compassButton = MKCompassButton(mapView: mapView)
+        compassButton.compassVisibility = .visible
+        mapView.addSubview(compassButton)
+        getInitialCases(numCases: 25, numSick: 1)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        centerMapOnPhiladelphia()
+        centerMapOnPenn()
+    
     }
     
-    func centerMapOnPhiladelphia() {
+    /*
+     When the user taps the simulate button,
+     we link to the storyboard to run a timestep
+     of the simulation. Kind of a playground to try out new things
+     and see how they work when you press the button, sorry it's
+     messy and gross
+     */
+    @IBAction func tapSimulate(_ sender: UIButton) {
+        for annotation in annotations {
+            // distance parameter configures how far the case moves in one
+            // "step", sideMovement is how much the case moves to "the side"
+            // (i.e. if it is on a lateral path how much does it move vertically)
+            // to give some variation in the movement
+            animateAnnotation(annotation, distance: 0.0009, sideMovement: 0.0005)
+        }
+        
+        // the idea here is just to animate the annotations, use the
+        // computeDistances() function to update the relative distance
+        // of cases, and then trasnmit based on that
+    
+    }
+    
+    
+    
+    func centerMapOnPenn() {
         let region = MKCoordinateRegion(center: centralCoord, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         mapView.setRegion(region, animated: true)
     }
     
-    func getAnnotations() {
-        let radiusLatLon = 0.05
+    func getInitialAnnotations(_ numCases: Int) {
         let variance = 0.005
         let x = 4
-        for i in (-x-2)..<x+3 {
-            for j in (-x)..<x+1 {
-                let lat = centralCoord.latitude + (radiusLatLon)*Double(i)/Double(x) + Double.random(in: -variance ..< variance)
-                let lon = centralCoord.longitude + (radiusLatLon)*Double(j)/Double(x) + Double.random(in: -variance ..< variance)
+        outerloop: for _ in (-x-2)..<x+3 {
+            for _ in (-x)..<x+1 {
+                let lat = centralCoord.latitude + Double.random(in: -variance ..< variance)
+                let lon = centralCoord.longitude + Double.random(in: -variance ..< variance)
                 let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                
-                // TODO: Randomizing initial cases (placeholder)
-                let currCase : CaseAnnotation = CaseAnnotation(coordinate: coord, currentStatus: caseStatus.allCases.randomElement()!)
+                // sets each of the current cases to healthy on the initial map 
+                let currCase : CaseAnnotation = CaseAnnotation(coordinate: coord, currentStatus: caseStatus.healthy, isMe: false, direction: caseDirection.allCases.randomElement()!)
                 self.annotations.append(currCase)
+                updateHealthyCount(by: 1, increase: true)
+                if self.annotations.count == numCases {
+                    break outerloop
+                }
+            }
+        }
+        
+    }
+    
+    
+    /*
+     Draws initial cases.
+     */
+    func getInitialCases(numCases : Int, numSick : Int) {
+        getInitialAnnotations(numCases)
+        getSickCases(numSick)
+        self.mapView.addAnnotations(self.annotations)
+        
+    }
+    
+    /*
+     Loops through array and pairwise compares cases for
+     possible transmission.
+     */
+    func computeDistances() {
+        for i in 1..<self.annotations.count {
+            for j in i + 1..<self.annotations.count {
+                compareCases(self.annotations[i], self.annotations[j])
             }
         }
     }
+    
+    /*
+     Computes Euclidean Distance between two coordinates
+     and possibly transmits based on the case type.
+     */
+    func compareCases(_ case1: MKAnnotation, _ case2: MKAnnotation) {
+        let longDifference = abs(case1.coordinate.longitude - case2.coordinate.longitude)
+        let latDifference = abs(case1.coordinate.latitude - case2.coordinate.latitude)
+        let distance = (longDifference * longDifference + latDifference * latDifference).squareRoot()
+        
+        // Downcast from MKAnnotation to access CaseStatus Enum
+        // and check status of cases
+        if let case1 = case1 as? CaseAnnotation {
+            if let case2 = case2 as? CaseAnnotation {
+                switch (case1.status, case2.status) {
+                case (.infected, .healthy):
+                    transmit(case1, case2, distance)
+                case (.healthy, .infected):
+                    transmit(case2, case1, distance)
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
+    /*
+     Transmits the disease from Case 1 -> Case 2
+     */
+    func transmit(_ case1 : CaseAnnotation, _ case2 : CaseAnnotation, _ distance: Double) {
+        if (distance < 0.002) {
+            case2.status = .infected
+            updateInfectedCount(by: 1, increase: true)
+            updateHealthyCount(by: 1, increase: false)
+        }
+    }
+    
+    /*
+     Modify healthyCount label in UI by some offset
+     */
+    func updateHealthyCount(by: Int, increase : Bool) {
+        healthyCount = increase ? healthyCount + by : healthyCount - by
+        healthyLabel.text = "Healthy: \(healthyCount)"
+    }
+    
+    /*
+     Modify infectedCount label in UI by some offset
+     */
+    func updateInfectedCount(by: Int, increase: Bool) {
+        infectedCount = increase ? infectedCount + by : infectedCount - by
+        infectedLabel.text = "Infected: \(infectedCount)"
+    }
+    
+    func getSickCases(_ numSick : Int) {
+        let variance = 0.005
+        for _ in 1...numSick {
+            let lat = centralCoord.latitude + Double.random(in: -variance ..< variance)
+            let lon = centralCoord.longitude + Double.random(in: -variance ..< variance)
+            let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            // sets each of these cases to sick
+            let currCase : CaseAnnotation = CaseAnnotation(coordinate: coord, currentStatus: caseStatus.infected, isMe: true, direction: caseDirection.allCases.randomElement()!)
+            self.annotations.append(currCase)
+            updateInfectedCount(by: 1, increase: true)
+        }
+    }
+    
+    
+    
+    func animateAnnotation(_ annotation : MKPointAnnotation, distance : Double,
+                           sideMovement : Double) {
+        var lat = annotation.coordinate.latitude
+        var lon = annotation.coordinate.longitude
+
+        UIView.animate(withDuration: 1.2, animations: {
+            if var annotation = annotation as? CaseAnnotation {
+                while self.goingOutOfBounds(annotation, northOffset: 0.004, southOffset: 0.005, horizontalOffset: 0.001, distance) {
+                    annotation.switchDirection()
+                }
+                switch annotation.direction {
+                case .north:
+                    lat += distance
+                    // add some variation movement with probability function
+                    if (self.coinLandsHeads()) {
+                        lon += sideMovement
+                    }
+                case .south:
+                    lat -= distance
+                    if (self.coinLandsHeads()) {
+                        lon -= sideMovement
+                    }
+                case .east:
+                    lon -= distance
+                    if (self.coinLandsHeads()) {
+                        lat += sideMovement
+                    }
+                case .west:
+                    lon += distance
+                    if (self.coinLandsHeads()) {
+                        lat -= sideMovement
+                    }
+                }
+            }
+            
+            let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            annotation.coordinate = coord
+            self.mapView.addAnnotation(annotation)
+            
+        })
+        
+    }
+    
+    /*
+     Probabilistic helper called in animateAnnotation()
+     */
+    func coinLandsHeads() -> Bool {
+        return Double.random(in: 0...1) <= 0.5
+    }
+    
+    /*
+     Check if the annotation is about to fly off the screen if it
+     keeps going.
+     */
+    func goingOutOfBounds(_ annotation: CaseAnnotation, northOffset : Double, southOffset : Double, horizontalOffset : Double, _ distance : Double) -> Bool {
+        let lat = annotation.coordinate.latitude
+        let lon = annotation.coordinate.longitude
+        var goingOut = false
+        switch annotation.direction {
+        case .north:
+            if lat + distance >= centralCoord.latitude + northOffset {
+                goingOut = true
+                
+            }
+            
+        case .south:
+            if lat - distance <= centralCoord.latitude - southOffset {
+                goingOut = true
+            }
+            
+        case .east:
+            if lon - distance <= centralCoord.longitude - horizontalOffset {
+                goingOut = true
+            }
+        
+        case .west:
+            if lon + distance >= centralCoord.longitude + horizontalOffset {
+                goingOut = true
+                
+            }
+            
+        }
+        
+        return goingOut
+        
+      
+    }
+    
+    /*
+     For an annotation that is about to hit the edges of the map,
+     this function allows it to complete the residual movement
+     to make the views as smooth as possible
+     */
+    func finishMovement(_ annotation : CaseAnnotation, _ distanceLeft : Double) {
+        UIView.animate(withDuration: 1.2, animations: {
+            var lat = annotation.coordinate.latitude
+            var lon = annotation.coordinate.longitude
+            switch annotation.direction {
+            case .north:
+                lat += distanceLeft
+            case .south:
+                lat -= distanceLeft
+            case .east:
+                lon += distanceLeft
+            case .west:
+                lon -= distanceLeft
+            }
+            
+            let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            annotation.coordinate = coord
+            self.mapView.addAnnotation(annotation)
+            
+        })
+    }
+    
+    
+
 }
 
 // MARK: MKMapViewDelegate
@@ -79,10 +318,38 @@ extension ViewController: MKMapViewDelegate {
         if let annotationView = annotationView {
             annotationView.canShowCallout = true
             annotationView.image = getIcon(status: caseAnnotation.status)
+            if caseAnnotation.isMe {
+                annotationView.isDraggable = true
+            } else {
+                annotationView.isDraggable = false
+            }
         }
         return annotationView
         
     }
+    
+/*
+     TODO: Implement draggable annotations.
+     */
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange
+//        newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+//        setDragState(newState, false)
+//
+//    }
+//
+//    func setDragState(_ newDragState:MKAnnotationView.DragState, _ animated: Bool) {
+//
+//        setStateHelper(_)
+//        switch (newDragState) {
+//
+//        case MKAnnotationView.DragState.starting:
+//            let endPoint = CGPoint(x: 5, y: -20)
+//            UIView.animate(withDuration: 0.2, animations: { self.center = endPoint }, completion: { self.dragState = MKAnnotationView.DragState.Dragging })
+//
+//        default:
+//            break
+//        }
+//    }
     
     func getIcon (status : caseStatus) -> UIImage {
         var icon: UIImage
@@ -93,14 +360,11 @@ extension ViewController: MKMapViewDelegate {
             case .infected:
                 icon = UIImage(systemName:"plus.circle.fill")!.withTintColor(.systemRed)
                 break
-            case .dead:
-                icon = UIImage(systemName:"xmark.circle.fill")!.withTintColor(.black)
-                break
-        case .recovered:
+            case .recovered:
                 icon = UIImage(systemName:"checkmark.circle.fill")!.withTintColor(.systemYellow)
         }
         
-        let size = CGSize(width: 25, height: 25)
+        let size = CGSize(width: 20, height: 20)
         let image = UIGraphicsImageRenderer(size:size).image {
             _ in icon.draw(in:CGRect(origin:.zero, size:size))
         }
@@ -120,5 +384,9 @@ extension ViewController: MKMapViewDelegate {
     }
 
 }
+
+
+
+
 
 
