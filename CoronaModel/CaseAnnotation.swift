@@ -12,11 +12,11 @@ import MapKit
 enum caseDirection : CaseIterable {
     case north, south, east, west
 }
-enum caseStatus : CaseIterable {
-    case healthy
-    case infected
-    case recovered
-}
+//enum caseStatus : CaseIterable {
+//    case healthy
+//    case infected
+//    case recovered
+//}
 
 class CaseAnnotation: MKPointAnnotation {
     var status: caseStatus
