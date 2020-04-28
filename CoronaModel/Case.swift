@@ -17,38 +17,57 @@ enum caseStatus : CaseIterable {
 }
 
 class Case: SKSpriteNode {
+    var status : caseStatus = .healthy
     
-
     override init(texture: SKTexture!, color: SKColor!, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
-        super.physicsBody = SKPhysicsBody(circleOfRadius: size.width)
-        super.physicsBody?.isDynamic = false
-        super.physicsBody?.collisionBitMask = 1
-        
+        /*
+            This physicsBody stuff defines how the sprites interact with other
+            sprites in the mapScene.
+         */
+        super.physicsBody = SKPhysicsBody(rectangleOf: size)
+        super.physicsBody!.isDynamic = true
+        super.physicsBody!.collisionBitMask = 2 // should bounce off of edges but not other people
+        super.physicsBody!.contactTestBitMask = 1 // contacts other cases
+        super.physicsBody!.categoryBitMask = 1 // is personally of "category" case
     }
-
+    
     convenience init(at position: CGPoint, status: caseStatus) {
         let radius = 20
         let size = CGSize(width: radius, height: radius)
         
+        
         var color: SKColor
         switch(status) {
-            case .healthy:
-                color = .green
-                break
-            case .infected:
-                color = .red
-                break
-            case .recovered:
-                color = .yellow
+        case .healthy:
+            color = .green
+            break
+        case .infected:
+            color = .red
+            break
+        case .recovered:
+            color = .yellow
         }
-        
         self.init(texture:nil, color: color, size: size)
         super.position = position
+        self.status = status
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
-        // Decoding length here would be nice...
+        self.status = .healthy
         super.init(coder: aDecoder)
     }
+    
+    func didContact (withCase otherCase : Case) -> Bool {
+        
+        let otherStatus = otherCase.status
+        if otherStatus == .infected && self.status == .healthy {
+            self.status = .infected
+            super.color = .red
+            return true
+        }
+        return false
+    }
+    
+    
 }
