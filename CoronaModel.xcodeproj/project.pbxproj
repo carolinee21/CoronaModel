@@ -16,6 +16,7 @@
 		820F51202446588500A59340 /* CoronaModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F511F2446588500A59340 /* CoronaModelTests.swift */; };
 		820F512B2446588600A59340 /* CoronaModelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F512A2446588600A59340 /* CoronaModelUITests.swift */; };
 		820F5139244669CB00A59340 /* CaseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F5138244669CB00A59340 /* CaseAnnotation.swift */; };
+		8296F4A324580F36002B11BD /* Case.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8296F4A224580F36002B11BD /* Case.swift */; };
 		82AE4DBC245754A0000A2A80 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AE4DBB245754A0000A2A80 /* MapScene.swift */; };
 		82AE4E0024575BAA000A2A80 /* MapScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 82AE4DFF24575BAA000A2A80 /* MapScene.sks */; };
 		AE62C6434677119073316C11 /* Pods_CoronaModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */; };
@@ -56,6 +57,7 @@
 		820F512A2446588600A59340 /* CoronaModelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoronaModelUITests.swift; sourceTree = "<group>"; };
 		820F512C2446588600A59340 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		820F5138244669CB00A59340 /* CaseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseAnnotation.swift; sourceTree = "<group>"; };
+		8296F4A224580F36002B11BD /* Case.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Case.swift; sourceTree = "<group>"; };
 		82AE4DBB245754A0000A2A80 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
 		82AE4DFF24575BAA000A2A80 /* MapScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MapScene.sks; sourceTree = "<group>"; };
 		977300069807DFBD7D2A1281 /* Pods-CoronaModel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoronaModel.release.xcconfig"; path = "Target Support Files/Pods-CoronaModel/Pods-CoronaModel.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				820F510A2446588300A59340 /* SceneDelegate.swift */,
 				820F510C2446588300A59340 /* ViewController.swift */,
 				82AE4DBB245754A0000A2A80 /* MapScene.swift */,
+				8296F4A224580F36002B11BD /* Case.swift */,
 				820F510E2446588300A59340 /* Main.storyboard */,
 				820F51112446588500A59340 /* Assets.xcassets */,
 				820F51132446588500A59340 /* LaunchScreen.storyboard */,
@@ -338,6 +341,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82AE4DBC245754A0000A2A80 /* MapScene.swift in Sources */,
+				8296F4A324580F36002B11BD /* Case.swift in Sources */,
 				820F510D2446588300A59340 /* ViewController.swift in Sources */,
 				820F51092446588300A59340 /* AppDelegate.swift in Sources */,
 				820F5139244669CB00A59340 /* CaseAnnotation.swift in Sources */,
