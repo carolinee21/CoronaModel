@@ -14,21 +14,27 @@ protocol UpdateCountDelegate : class {
 }
 
 class MapScene : SKScene, SKPhysicsContactDelegate {
-    let ballRadius: CGFloat = 15
     var countInfected : Int = 0
     var countHealthy : Int = 0
+    // User input as passed in from the root LaunchViewController
+    var socialDistance : Int = 0
+    var initialCases : Int = 0
+    var initialSick : Int = 0
+    var RNought : Double = 0
     weak var updateCountDelegate : UpdateCountDelegate? = nil
+    let timer = CountdownLabel()
 
 
     override func didMove(to view: SKView) {
         
-        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         physicsBody?.collisionBitMask = 2
         physicsBody?.categoryBitMask = 2
         physicsWorld.gravity = .zero
+        physicsBody?.friction = 0
         physicsWorld.contactDelegate = self
+        getInitialCases(numHealthy: initialCases - initialSick, numInfected: initialSick)
         
-        getInitialCases(numHealthy: 98, numInfected: 2)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -43,6 +49,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
             addRandomCase(status: .infected)
         }
         updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected)
+
     }
     
     /*
@@ -55,9 +62,16 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
      Feel free to play around with it - I just thought this semi-randomness
      was enough to represent random movement visually
      */
+    /*
+     @Caroline: The user passes in the social distance slider, and this is
+     the variable @socialDistance which determines the distances of the nodes and
+     their speed. Also kinda arbitrary feel free to mess w
+     */
     func getRandomActionSequence() -> SKAction {
-        let speed : Double = Double.random(in: 2..<4)
-        let dist = 100
+        // as socialDistance goes up, the speed at which nodes travel gets slower
+        let speed : Double = Double.random(in: 1.5..<2) + Double(socialDistance / 30)
+        // as socialDistance goes up, total distance traveled by nodes goes down
+        let dist = 200 - (2 * socialDistance)
         
         var sequence : [SKAction]  = []
         var sequenceBack : [SKAction]  = []
@@ -95,6 +109,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         let position = CGPoint(x: xInfected, y: yInfected)
         
         let curr : Case = Case(at : position, status: status)
+        curr.name = "case"
 
         let action = getRandomActionSequence()
         curr.run(action)
@@ -105,6 +120,20 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         This function is a sort of listener for contacts between cases.
         Right now it is configured using SKPhysics things for each sprite so
         that only "case" nodes will contact each other.
+     
+     @Caroline: I want to keep track of R0, the amount of people a single person
+     infects. It's supposedly like the most telling stat for infectious diseases.
+     Anyway the function updateRO() just iterates through the nodes and computes the
+     R0 by summing up, for each node, how many people that node infected and then
+     dividing out by the number of total nodes. I ended up dividing out the number
+     of totalNodes by 2, I think it's just harder to map b/c we have a very finite amount
+     of nodes in our simulation.
+     
+     Ideally we'd compute R0 once, after the simulation is over. But
+     since we're not yet sure abt when the simulation will "finish" I just
+     put it in this func and it computes a bunch of times as it goes.
+     
+     Not sure a more efficient way to do this rn. 
      */
     func didBegin(_ contact: SKPhysicsContact) {
         guard let caseA = contact.bodyA.node as? Case else { return }
@@ -118,7 +147,30 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
             countHealthy -= 1
             updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected)
         }
+        
+        updateR0()
 
     }
+    
+    func updateR0() {
+        var totalCases = 0
+        var infectedBy = 0
+        print(String(self.children.count) + " is the count")
+        for node in self.children {
+            if let node = node as? Case {
+                print("Ive infected " + String(node.infectedByMe))
+                if (node.status == .infected) {
+                    totalCases += 1
+                }
+                infectedBy += node.infectedByMe
+            }
+        }
+        print("In total we've infected " + String(infectedBy))
+        print("There are " + String(totalCases) + " total Cases")
+        RNought = Double(infectedBy) / Double(totalCases / 2)
+        print(RNought)
+    }
+    
+
     
 }

@@ -20,6 +20,12 @@ class ViewController: UIViewController, UpdateCountDelegate {
     @IBOutlet var daysLabel: UILabel!
     @IBOutlet var GameSKView : SKView!
     
+    // User input as passed in from the root LaunchViewController
+    var socialDistance = 0
+    var initialCases = 0
+    var initialSick = 0
+    
+    
     var healthyCount = 0
     var infectedCount = 0
     var recoveredCount = 0
@@ -31,9 +37,6 @@ class ViewController: UIViewController, UpdateCountDelegate {
         super.viewDidLoad()
         
         mapView.delegate = self
-        let compassButton = MKCompassButton(mapView: mapView)
-        compassButton.compassVisibility = .visible
-        mapView.addSubview(compassButton)
         centerMapOnPenn()
         
         GameSKView.allowsTransparency = true
@@ -42,7 +45,11 @@ class ViewController: UIViewController, UpdateCountDelegate {
         {
             mapScene.scaleMode = .aspectFill
             mapScene.backgroundColor = .clear
+            mapScene.scaleMode = SKSceneScaleMode.resizeFill
             if let mapScene = mapScene as? MapScene {
+                mapScene.socialDistance = self.socialDistance
+                mapScene.initialCases = self.initialCases
+                mapScene.initialSick = self.initialSick
                 // This gives the "mapScene" aka all the Sprite scene stuff
                 // a way to communicate back with the UI to display counts
                 mapScene.updateCountDelegate = self
@@ -59,6 +66,13 @@ class ViewController: UIViewController, UpdateCountDelegate {
     }
     
     
+    /*
+     Listener for simulate button at the top right 
+     */
+    @IBAction func buttonTapped(_ sender: UIButton) {
+        
+        
+    }
     
     
     func centerMapOnPenn() {
@@ -71,7 +85,6 @@ class ViewController: UIViewController, UpdateCountDelegate {
         infectedLabel.text = "Infected: \(infected)"
         
     }
-    
     
     
     
