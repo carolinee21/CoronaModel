@@ -18,8 +18,11 @@ enum caseStatus : CaseIterable {
 
 class Case: SKSpriteNode {
     var status : caseStatus = .healthy
+    // Keep track of how many people I infect 
+    var infectedByMe : Int
     
     override init(texture: SKTexture!, color: SKColor!, size: CGSize) {
+        self.infectedByMe = 0
         super.init(texture: texture, color: color, size: size)
         /*
             This physicsBody stuff defines how the sprites interact with other
@@ -33,7 +36,7 @@ class Case: SKSpriteNode {
     }
     
     convenience init(at position: CGPoint, status: caseStatus) {
-        let radius = 20
+        let radius = 11
         let size = CGSize(width: radius, height: radius)
         
         
@@ -55,6 +58,7 @@ class Case: SKSpriteNode {
     
     required init?(coder aDecoder: NSCoder) {
         self.status = .healthy
+        self.infectedByMe = 0
         super.init(coder: aDecoder)
     }
     
@@ -64,6 +68,7 @@ class Case: SKSpriteNode {
         if otherStatus == .infected && self.status == .healthy {
             self.status = .infected
             super.color = .red
+            otherCase.infectedByMe += 1
             return true
         }
         return false
