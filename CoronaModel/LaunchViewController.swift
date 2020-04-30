@@ -62,6 +62,7 @@ class LaunchViewController: UIViewController {
         vc.socialDistance = Int(self.distance)!
         vc.initialCases = Int(populationLabel.text!)!
         vc.initialSick = Int(sickLabel.text!)!
+        
     }
     
     

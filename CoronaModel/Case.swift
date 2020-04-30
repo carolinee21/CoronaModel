@@ -48,11 +48,13 @@ class Case: SKSpriteNode {
         return max(remainingSeconds, 0)
     }
     
-    func update () {
+    func update () -> Bool {
         if self.status == .infected && remainingTime() == 0 {
             self.status = .recovered
             super.color = .yellow
+            return true
         }
+        return false
         
     }
     

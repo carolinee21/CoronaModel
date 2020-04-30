@@ -17,7 +17,7 @@ protocol UpdateCountDelegate : class {
 class MapScene : SKScene, SKPhysicsContactDelegate {
     var countInfected : Int = 0
     var countHealthy : Int = 0
-    var countRecovered : Int = -1
+    var countRecovered : Int = 0
     // User input as passed in from the root LaunchViewController
     var socialDistance : Int = 0
     var initialCases : Int = 0
@@ -42,7 +42,11 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         for node in self.children {
             if let node = node as? Case {
-                node.update()
+                var didRecover = node.update()
+                if didRecover {
+                    self.countRecovered += 1
+                    self.countInfected -= 1
+                }
             }
         }
         updateR0()
