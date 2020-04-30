@@ -20,6 +20,8 @@ class Case: SKSpriteNode {
     var status : caseStatus = .healthy
     // Keep track of how many people I infect 
     var infectedByMe : Int
+    var recoversBy : Date!
+
     
     override init(texture: SKTexture!, color: SKColor!, size: CGSize) {
         self.infectedByMe = 0
@@ -33,6 +35,22 @@ class Case: SKSpriteNode {
         super.physicsBody!.collisionBitMask = 2 // should bounce off of edges but not other people
         super.physicsBody!.contactTestBitMask = 1 // contacts other cases
         super.physicsBody!.categoryBitMask = 1 // is personally of "category" case
+        
+        recoversBy = Date()
+    }
+    
+    private func remainingTime() -> TimeInterval {
+        let rightNow = Date()
+        let remainingSeconds = recoversBy.timeIntervalSince(rightNow)
+        return max(remainingSeconds, 0)
+    }
+    
+    func update () {
+        if self.status == .infected && remainingTime() == 0 {
+            self.status = .recovered
+            super.color = .yellow
+        }
+        
     }
     
     convenience init(at position: CGPoint, status: caseStatus) {
@@ -69,6 +87,9 @@ class Case: SKSpriteNode {
             self.status = .infected
             super.color = .red
             otherCase.infectedByMe += 1
+            let duration : TimeInterval = 10;
+            let timeNow = Date()
+            recoversBy = timeNow.addingTimeInterval(duration)
             return true
         }
         return false

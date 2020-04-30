@@ -36,6 +36,13 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         getInitialCases(numHealthy: initialCases - initialSick, numInfected: initialSick)
         
     }
+    override func update(_ currentTime: TimeInterval) {
+        for node in self.children {
+            if let node = node as? Case {
+                node.update()
+            }
+        }
+    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // I think this is where we could handle user input/touch, if we want
