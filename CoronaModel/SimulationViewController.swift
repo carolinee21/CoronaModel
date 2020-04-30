@@ -17,6 +17,7 @@ class ViewController: UIViewController, UpdateCountDelegate {
     @IBOutlet var healthyLabel: UILabel!
     @IBOutlet var infectedLabel: UILabel!
     @IBOutlet var recoveredLabel: UILabel!
+    @IBOutlet var rNaughtLabel: UILabel!
     @IBOutlet var daysLabel: UILabel!
     @IBOutlet var GameSKView : SKView!
     
@@ -80,10 +81,15 @@ class ViewController: UIViewController, UpdateCountDelegate {
         mapView.setRegion(region, animated: true)
     }
     
-    func updateCount(healthy: Int, infected: Int) {
+    func updateCount(healthy: Int, infected: Int, recovered: Int) {
         healthyLabel.text = "Healthy: \(healthy)"
         infectedLabel.text = "Infected: \(infected)"
-        
+        recoveredLabel.text = "Recovered: ??"
+
+    }
+
+    func updateR0(rNaught: Double) {
+        rNaughtLabel.text = "R0: \(rNaught)"
     }
     
     

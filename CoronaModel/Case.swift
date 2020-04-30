@@ -36,7 +36,10 @@ class Case: SKSpriteNode {
         super.physicsBody!.contactTestBitMask = 1 // contacts other cases
         super.physicsBody!.categoryBitMask = 1 // is personally of "category" case
         
-        recoversBy = Date()
+        let duration : TimeInterval = 7;
+        let timeNow = Date()
+        recoversBy = timeNow.addingTimeInterval(duration)
+        
     }
     
     private func remainingTime() -> TimeInterval {
@@ -87,7 +90,7 @@ class Case: SKSpriteNode {
             self.status = .infected
             super.color = .red
             otherCase.infectedByMe += 1
-            let duration : TimeInterval = 10;
+            let duration : TimeInterval = 7;
             let timeNow = Date()
             recoversBy = timeNow.addingTimeInterval(duration)
             return true

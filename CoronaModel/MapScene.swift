@@ -10,12 +10,14 @@ import Foundation
 import SpriteKit
 
 protocol UpdateCountDelegate : class {
-    func updateCount(healthy: Int, infected: Int)
+    func updateCount(healthy: Int, infected: Int, recovered: Int)
+    func updateR0(rNaught: Double)
 }
 
 class MapScene : SKScene, SKPhysicsContactDelegate {
     var countInfected : Int = 0
     var countHealthy : Int = 0
+    var countRecovered : Int = -1
     // User input as passed in from the root LaunchViewController
     var socialDistance : Int = 0
     var initialCases : Int = 0
@@ -55,7 +57,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         for _ in 0..<numInfected {
             addRandomCase(status: .infected)
         }
-        updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected)
+        updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered)
 
     }
     
@@ -152,7 +154,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         if bInfectedA || aInfectedB {
             countInfected += 1
             countHealthy -= 1
-            updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected)
+            updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered)
         }
         
         updateR0()
@@ -160,21 +162,22 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     }
     
     func updateR0() {
-        var totalCases = 0
+        var totalInfectedCases = 0
         var infectedBy = 0
-        print(String(self.children.count) + " is the count")
+        //print(String(self.children.count) + " is the count")
         for node in self.children {
             if let node = node as? Case {
-                print("Ive infected " + String(node.infectedByMe))
+                //print("Ive infected " + String(node.infectedByMe))
                 if (node.status == .infected) {
-                    totalCases += 1
+                    totalInfectedCases += 1
                 }
                 infectedBy += node.infectedByMe
             }
         }
-        print("In total we've infected " + String(infectedBy))
-        print("There are " + String(totalCases) + " total Cases")
-        RNought = Double(infectedBy) / Double(totalCases / 2)
+        //print("In total we've infected " + String(infectedBy))
+        //print("There are " + String(totalCases) + " total Cases")
+        RNought = Double(infectedBy) / Double(totalInfectedCases / 2)
+        updateCountDelegate?.updateR0(rNaught: RNought)
         print(RNought)
     }
     
