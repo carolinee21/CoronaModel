@@ -38,12 +38,14 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         getInitialCases(numHealthy: initialCases - initialSick, numInfected: initialSick)
         
     }
+    
     override func update(_ currentTime: TimeInterval) {
         for node in self.children {
             if let node = node as? Case {
                 node.update()
             }
         }
+        updateR0()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -157,7 +159,6 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
             updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered)
         }
         
-        updateR0()
 
     }
     
@@ -168,7 +169,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         for node in self.children {
             if let node = node as? Case {
                 //print("Ive infected " + String(node.infectedByMe))
-                if (node.status == .infected) {
+                if (node.status == .infected || node.status == .recovered) {
                     totalInfectedCases += 1
                 }
                 infectedBy += node.infectedByMe
@@ -178,7 +179,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         //print("There are " + String(totalCases) + " total Cases")
         RNought = Double(infectedBy) / Double(totalInfectedCases / 2)
         updateCountDelegate?.updateR0(rNaught: RNought)
-        print(RNought)
+        //print(RNought)
     }
     
 

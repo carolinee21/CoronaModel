@@ -89,7 +89,8 @@ class ViewController: UIViewController, UpdateCountDelegate {
     }
 
     func updateR0(rNaught: Double) {
-        rNaughtLabel.text = "R0: \(rNaught)"
+       
+        rNaughtLabel.text = String(format: "R0: %.2f", rNaught)
     }
     
     
