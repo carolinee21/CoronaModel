@@ -5,7 +5,6 @@
 //  Created by Caroline on 4/28/20.
 //  Copyright © 2020 CarolineEvans. All rights reserved.
 //
-
 import UIKit
 import SpriteKit
 
@@ -18,7 +17,7 @@ enum caseStatus : CaseIterable {
 
 class Case: SKSpriteNode {
     var status : caseStatus = .healthy
-    // Keep track of how many people I infect 
+    // Keep track of how many people I infect
     var infectedByMe : Int
     var recoversBy : Date!
 
@@ -36,9 +35,7 @@ class Case: SKSpriteNode {
         super.physicsBody!.contactTestBitMask = 1 // contacts other cases
         super.physicsBody!.categoryBitMask = 1 // is personally of "category" case
         
-        let duration : TimeInterval = Double.random(in: 0..<1) < 0.5 ? 14 : 7
-        // add probabilistic death case
-        // as of April 23 the mortality rate in philly is 11226/443
+        let duration : TimeInterval = 7;
         let timeNow = Date()
         recoversBy = timeNow.addingTimeInterval(duration)
         
@@ -50,11 +47,13 @@ class Case: SKSpriteNode {
         return max(remainingSeconds, 0)
     }
     
-    func update () {
+    func update () -> Bool {
         if self.status == .infected && remainingTime() == 0 {
             self.status = .recovered
-            super.color = .blue
+            super.color = .yellow
+            return true
         }
+        return false
         
     }
     
@@ -72,7 +71,7 @@ class Case: SKSpriteNode {
             color = .red
             break
         case .recovered:
-            color = .blue
+            color = .yellow
         }
         self.init(texture:nil, color: color, size: size)
         super.position = position

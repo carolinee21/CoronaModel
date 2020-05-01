@@ -5,7 +5,6 @@
 //  Created by Caroline on 4/27/20.
 //  Copyright © 2020 CarolineEvans. All rights reserved.
 //
-
 import Foundation
 import SpriteKit
 
@@ -17,13 +16,14 @@ protocol UpdateCountDelegate : class {
 class MapScene : SKScene, SKPhysicsContactDelegate {
     var countInfected : Int = 0
     var countHealthy : Int = 0
-    var countRecovered : Int = -1
+    var countRecovered : Int = 0
     // User input as passed in from the root LaunchViewController
     var socialDistance : Int = 0
     var initialCases : Int = 0
     var initialSick : Int = 0
     var RNought : Double = 0
     weak var updateCountDelegate : UpdateCountDelegate? = nil
+    let timer = CountdownLabel()
 
 
     override func didMove(to view: SKView) {
@@ -37,12 +37,18 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         getInitialCases(numHealthy: initialCases - initialSick, numInfected: initialSick)
         
     }
+    
     override func update(_ currentTime: TimeInterval) {
         for node in self.children {
             if let node = node as? Case {
-                node.update()
+                var didRecover = node.update()
+                if didRecover {
+                    self.countRecovered += 1
+                    self.countInfected -= 1
+                }
             }
         }
+        updateR0()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -79,7 +85,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         // as socialDistance goes up, the speed at which nodes travel gets slower
         let speed : Double = Double.random(in: 1.5..<2) + Double(socialDistance / 30)
         // as socialDistance goes up, total distance traveled by nodes goes down
-        let dist = 175 - (socialDistance)
+        let dist = 200 - (2 * socialDistance)
         
         var sequence : [SKAction]  = []
         var sequenceBack : [SKAction]  = []
@@ -141,7 +147,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
      since we're not yet sure abt when the simulation will "finish" I just
      put it in this func and it computes a bunch of times as it goes.
      
-     Not sure a more efficient way to do this rn. 
+     Not sure a more efficient way to do this rn.
      */
     func didBegin(_ contact: SKPhysicsContact) {
         guard let caseA = contact.bodyA.node as? Case else { return }
@@ -156,26 +162,27 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
             updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered)
         }
         
-        updateR0()
 
     }
     
     func updateR0() {
         var totalInfectedCases = 0
         var infectedBy = 0
+        //print(String(self.children.count) + " is the count")
         for node in self.children {
             if let node = node as? Case {
-        
+                //print("Ive infected " + String(node.infectedByMe))
                 if (node.status == .infected || node.status == .recovered) {
                     totalInfectedCases += 1
                 }
                 infectedBy += node.infectedByMe
             }
         }
-
-        RNought = Double(infectedBy) / Double(totalInfectedCases/2)
+        //print("In total we've infected " + String(infectedBy))
+        //print("There are " + String(totalCases) + " total Cases")
+        RNought = Double(infectedBy) / Double(totalInfectedCases / 2)
         updateCountDelegate?.updateR0(rNaught: RNought)
-        print(RNought)
+        //print(RNought)
     }
     
 

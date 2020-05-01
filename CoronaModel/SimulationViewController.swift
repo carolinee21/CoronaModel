@@ -84,12 +84,13 @@ class ViewController: UIViewController, UpdateCountDelegate {
     func updateCount(healthy: Int, infected: Int, recovered: Int) {
         healthyLabel.text = "Healthy: \(healthy)"
         infectedLabel.text = "Infected: \(infected)"
-        recoveredLabel.text = "Recovered: ??"
+        recoveredLabel.text = "Recovered: \(recovered)"
 
     }
 
     func updateR0(rNaught: Double) {
-        rNaughtLabel.text = "R0: \(rNaught)"
+       
+        rNaughtLabel.text = String(format: "R0: %.2f", rNaught)
     }
     
     
