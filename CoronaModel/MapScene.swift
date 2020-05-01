@@ -24,7 +24,6 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     var initialSick : Int = 0
     var RNought : Double = 0
     weak var updateCountDelegate : UpdateCountDelegate? = nil
-    let timer = CountdownLabel()
 
 
     override func didMove(to view: SKView) {
@@ -80,7 +79,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         // as socialDistance goes up, the speed at which nodes travel gets slower
         let speed : Double = Double.random(in: 1.5..<2) + Double(socialDistance / 30)
         // as socialDistance goes up, total distance traveled by nodes goes down
-        let dist = 200 - (2 * socialDistance)
+        let dist = 175 - (socialDistance)
         
         var sequence : [SKAction]  = []
         var sequenceBack : [SKAction]  = []
@@ -164,19 +163,17 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     func updateR0() {
         var totalInfectedCases = 0
         var infectedBy = 0
-        //print(String(self.children.count) + " is the count")
         for node in self.children {
             if let node = node as? Case {
-                //print("Ive infected " + String(node.infectedByMe))
-                if (node.status == .infected) {
+        
+                if (node.status == .infected || node.status == .recovered) {
                     totalInfectedCases += 1
                 }
                 infectedBy += node.infectedByMe
             }
         }
-        //print("In total we've infected " + String(infectedBy))
-        //print("There are " + String(totalCases) + " total Cases")
-        RNought = Double(infectedBy) / Double(totalInfectedCases / 2)
+
+        RNought = Double(infectedBy) / Double(totalInfectedCases/2)
         updateCountDelegate?.updateR0(rNaught: RNought)
         print(RNought)
     }

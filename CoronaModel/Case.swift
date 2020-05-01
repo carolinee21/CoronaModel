@@ -36,7 +36,9 @@ class Case: SKSpriteNode {
         super.physicsBody!.contactTestBitMask = 1 // contacts other cases
         super.physicsBody!.categoryBitMask = 1 // is personally of "category" case
         
-        let duration : TimeInterval = 7;
+        let duration : TimeInterval = Double.random(in: 0..<1) < 0.5 ? 14 : 7
+        // add probabilistic death case
+        // as of April 23 the mortality rate in philly is 11226/443
         let timeNow = Date()
         recoversBy = timeNow.addingTimeInterval(duration)
         
@@ -51,7 +53,7 @@ class Case: SKSpriteNode {
     func update () {
         if self.status == .infected && remainingTime() == 0 {
             self.status = .recovered
-            super.color = .yellow
+            super.color = .blue
         }
         
     }
@@ -70,7 +72,7 @@ class Case: SKSpriteNode {
             color = .red
             break
         case .recovered:
-            color = .yellow
+            color = .blue
         }
         self.init(texture:nil, color: color, size: size)
         super.position = position
