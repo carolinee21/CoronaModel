@@ -17,6 +17,7 @@ class LaunchViewController: UIViewController {
     @IBOutlet var distanceLabel: UILabel!
     @IBOutlet weak var populationLabel: UITextField!
     @IBOutlet weak var sickLabel: UITextField!
+    @IBOutlet weak var durationLabel: UITextField!
     
     var distance = ""
     
@@ -26,6 +27,7 @@ class LaunchViewController: UIViewController {
         super.viewDidLoad()
         populationLabel.delegate = self
         sickLabel.delegate = self
+        durationLabel.delegate = self
 
         // Do any additional setup after loading the view.
     }
@@ -44,6 +46,7 @@ class LaunchViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         populationLabel.resignFirstResponder()
         sickLabel.resignFirstResponder()
+        durationLabel.resignFirstResponder()
     }
     
     /*
@@ -62,6 +65,7 @@ class LaunchViewController: UIViewController {
         vc.socialDistance = Int(self.distance)!
         vc.initialCases = Int(populationLabel.text!)!
         vc.initialSick = Int(sickLabel.text!)!
+        vc.duration = Int(durationLabel.text!)!
         
     }
     

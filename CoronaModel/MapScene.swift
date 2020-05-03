@@ -5,12 +5,11 @@
 //  Created by Caroline on 4/27/20.
 //  Copyright © 2020 CarolineEvans. All rights reserved.
 //
-
 import Foundation
 import SpriteKit
 
 protocol UpdateCountDelegate : class {
-    func updateCount(healthy: Int, infected: Int, recovered: Int)
+    func updateCount(healthy: Int, infected: Int, recovered: Int, dead: Int)
     func updateR0(rNaught: Double)
 }
 
@@ -18,13 +17,16 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     var countInfected : Int = 0
     var countHealthy : Int = 0
     var countRecovered : Int = 0
+    var countDead : Int = 0
     // User input as passed in from the root LaunchViewController
     var socialDistance : Int = 0
     var initialCases : Int = 0
     var initialSick : Int = 0
+    var duration : TimeInterval = 0
     var RNought : Double = 0
     weak var updateCountDelegate : UpdateCountDelegate? = nil
-    let timer = CountdownLabel()
+    
+    
 
 
     override func didMove(to view: SKView) {
@@ -42,15 +44,32 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         for node in self.children {
             if let node = node as? Case {
-                var didRecover = node.update()
+                let didRecover = node.update()
                 if didRecover {
-                    self.countRecovered += 1
-                    self.countInfected -= 1
+                    if (node.willDie) {
+                        self.countDead += 1
+                        self.countInfected -= 1
+                    } else {
+                        self.countRecovered += 1
+                        self.countInfected -= 1
+                    }
                 }
             }
         }
+        updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered, dead: countDead)
+        
         updateR0()
+        
+        
     }
+    
+    
+    // TODO implement timer correctly
+//    private func remainingTime() -> TimeInterval {
+//           let rightNow = Date()
+//           let remainingSeconds = finishedBy.timeIntervalSince(rightNow)
+//           return max(remainingSeconds, 0)
+//    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // I think this is where we could handle user input/touch, if we want
@@ -63,7 +82,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         for _ in 0..<numInfected {
             addRandomCase(status: .infected)
         }
-        updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered)
+        updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered, dead: countDead)
 
     }
     
@@ -136,20 +155,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         Right now it is configured using SKPhysics things for each sprite so
         that only "case" nodes will contact each other.
      
-     @Caroline: I want to keep track of R0, the amount of people a single person
-     infects. It's supposedly like the most telling stat for infectious diseases.
-     Anyway the function updateRO() just iterates through the nodes and computes the
-     R0 by summing up, for each node, how many people that node infected and then
-     dividing out by the number of total nodes. I ended up dividing out the number
-     of totalNodes by 2, I think it's just harder to map b/c we have a very finite amount
-     of nodes in our simulation.
-     
-     Ideally we'd compute R0 once, after the simulation is over. But
-     since we're not yet sure abt when the simulation will "finish" I just
-     put it in this func and it computes a bunch of times as it goes.
-     
-     Not sure a more efficient way to do this rn. 
-     */
+    */
     func didBegin(_ contact: SKPhysicsContact) {
         guard let caseA = contact.bodyA.node as? Case else { return }
         guard let caseB = contact.bodyB.node as? Case else { return }
@@ -160,7 +166,6 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         if bInfectedA || aInfectedB {
             countInfected += 1
             countHealthy -= 1
-            updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered)
         }
         
 
@@ -169,21 +174,18 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     func updateR0() {
         var totalInfectedCases = 0
         var infectedBy = 0
-        //print(String(self.children.count) + " is the count")
+       
         for node in self.children {
             if let node = node as? Case {
-                //print("Ive infected " + String(node.infectedByMe))
                 if (node.status == .infected || node.status == .recovered) {
                     totalInfectedCases += 1
                 }
                 infectedBy += node.infectedByMe
             }
         }
-        //print("In total we've infected " + String(infectedBy))
-        //print("There are " + String(totalCases) + " total Cases")
         RNought = Double(infectedBy) / Double(totalInfectedCases / 2)
         updateCountDelegate?.updateR0(rNaught: RNought)
-        //print(RNought)
+
     }
     
 
