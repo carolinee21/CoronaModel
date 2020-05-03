@@ -62,10 +62,10 @@ class LaunchViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var vc = segue.destination as! ViewController
         vc.modalPresentationStyle = .fullScreen
-        vc.socialDistance = Int(self.distance)!
-        vc.initialCases = Int(populationLabel.text!)!
-        vc.initialSick = Int(sickLabel.text!)!
-        vc.duration = Int(durationLabel.text!)!
+        vc.socialDistance = Int(self.distance) ?? 50
+        vc.initialCases = Int(populationLabel.text!) ?? 100
+        vc.initialSick = Int(sickLabel.text!) ?? 2
+        vc.duration = Int(durationLabel.text!) ?? 30
         
     }
     

@@ -105,7 +105,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         // as socialDistance goes up, the speed at which nodes travel gets slower
         let speed : Double = Double.random(in: 1.5..<2) + Double(socialDistance / 30)
         // as socialDistance goes up, total distance traveled by nodes goes down
-        let dist = 200 - (2 * socialDistance)
+        let dist = 200 - socialDistance
         
         var sequence : [SKAction]  = []
         var sequenceBack : [SKAction]  = []
@@ -183,7 +183,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
                 infectedBy += node.infectedByMe
             }
         }
-        RNought = Double(infectedBy) / Double(totalInfectedCases / 2)
+        RNought = Double(infectedBy) / Double(totalInfectedCases)
         updateCountDelegate?.updateR0(rNaught: RNought)
 
     }
