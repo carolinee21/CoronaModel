@@ -57,10 +57,17 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="R0: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaE-Zb-2X4">
-                                <rect key="frame" x="176" y="118" width="72" height="22"/>
+                                <rect key="frame" x="92" y="120" width="72" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dead:      " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XPQ-y7-Uab">
+                                <rect key="frame" x="245" y="121" width="72" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -81,6 +88,7 @@
                     </view>
                     <connections>
                         <outlet property="GameSKView" destination="1WF-qr-iRA" id="gvg-tA-UqK"/>
+                        <outlet property="deadLabel" destination="XPQ-y7-Uab" id="Ktt-Ij-pKn"/>
                         <outlet property="healthyLabel" destination="8Oc-qf-djI" id="qnM-Pq-nvg"/>
                         <outlet property="infectedLabel" destination="e1n-KS-S8y" id="btb-7k-0rt"/>
                         <outlet property="mapView" destination="BSq-3q-kH0" id="ICQ-7F-DvX"/>
@@ -123,7 +131,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="desired population" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dl4-Sd-YtO">
-                                <rect key="frame" x="47" y="625" width="321" height="34"/>
+                                <rect key="frame" x="47" y="634" width="321" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -137,10 +145,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Yjz-qi-kcw">
-                                <rect key="frame" x="73" y="198" width="269" height="333.5"/>
+                                <rect key="frame" x="73" y="179" width="269" height="356.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <string key="text">Welcome to Corona Model, a simulation of what life on campus may look like during the COVID-19 pandemic. To begin the simulation, enter your desired initial population and number of sick cases. You can configure the "social distancing" slider to simulate quarantine-like campus conditions to see how these behaviors can affect the rates of transmission. </string>
+                                <string key="text">Welcome to Corona Model, a simulation of what life on campus may look like during the COVID-19 pandemic. To begin the simulation, enter your desired initial population and number of sick cases. You can configure the "social distancing" slider to simulate quarantine-like campus conditions to see how these behaviors can affect the rates of transmission. The lower the social distancing value, the more the nodes will move.</string>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -162,12 +170,19 @@
                                     <action selector="runSimulation:" destination="USk-tC-i5G" eventType="touchUpInside" id="zUq-by-CsM"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="simulation duration (sec)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KnK-xy-juU">
+                                <rect key="frame" x="112" y="573" width="191" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="v0y-sg-Rjc"/>
                     </view>
                     <connections>
                         <outlet property="distanceLabel" destination="2rJ-La-Y75" id="Mbe-oF-NUN"/>
+                        <outlet property="durationLabel" destination="KnK-xy-juU" id="sBd-pV-W0w"/>
                         <outlet property="populationLabel" destination="dl4-Sd-YtO" id="otl-2n-SLB"/>
                         <outlet property="sickLabel" destination="DdJ-2O-Phx" id="nIt-lB-qdz"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="name" modalPresentationStyle="fullScreen" id="pC4-Zt-Zca"/>

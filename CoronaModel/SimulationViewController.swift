@@ -17,6 +17,7 @@ class ViewController: UIViewController, UpdateCountDelegate {
     @IBOutlet var healthyLabel: UILabel!
     @IBOutlet var infectedLabel: UILabel!
     @IBOutlet var recoveredLabel: UILabel!
+    @IBOutlet var deadLabel: UILabel!
     @IBOutlet var rNaughtLabel: UILabel!
     @IBOutlet var daysLabel: UILabel!
     @IBOutlet var GameSKView : SKView!
@@ -25,12 +26,8 @@ class ViewController: UIViewController, UpdateCountDelegate {
     var socialDistance = 0
     var initialCases = 0
     var initialSick = 0
+    var duration = 0
     
-    
-    var healthyCount = 0
-    var infectedCount = 0
-    var recoveredCount = 0
-    var annotations : [MKPointAnnotation] = []
     let centralCoord = CLLocationCoordinate2D(latitude: 39.950908, longitude: -75.196032)
     let regionRadius: CLLocationDistance = 1000 // meters
     
@@ -51,6 +48,7 @@ class ViewController: UIViewController, UpdateCountDelegate {
                 mapScene.socialDistance = self.socialDistance
                 mapScene.initialCases = self.initialCases
                 mapScene.initialSick = self.initialSick
+                mapScene.duration = TimeInterval(self.duration)
                 // This gives the "mapScene" aka all the Sprite scene stuff
                 // a way to communicate back with the UI to display counts
                 mapScene.updateCountDelegate = self
@@ -81,15 +79,15 @@ class ViewController: UIViewController, UpdateCountDelegate {
         mapView.setRegion(region, animated: true)
     }
     
-    func updateCount(healthy: Int, infected: Int, recovered: Int) {
+    func updateCount(healthy: Int, infected: Int, recovered: Int, dead : Int) {
         healthyLabel.text = "Healthy: \(healthy)"
         infectedLabel.text = "Infected: \(infected)"
         recoveredLabel.text = "Recovered: \(recovered)"
+        deadLabel.text = "Dead: \(dead)"
 
     }
 
     func updateR0(rNaught: Double) {
-       
         rNaughtLabel.text = String(format: "R0: %.2f", rNaught)
     }
     
