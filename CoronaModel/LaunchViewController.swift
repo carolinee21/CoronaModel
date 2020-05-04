@@ -60,12 +60,15 @@ class LaunchViewController: UIViewController {
     
     // Passes in input information to the main ViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var vc = segue.destination as! ViewController
-        vc.modalPresentationStyle = .fullScreen
-        vc.socialDistance = Int(self.distance) ?? 50
-        vc.initialCases = Int(populationLabel.text!) ?? 100
-        vc.initialSick = Int(sickLabel.text!) ?? 2
-        vc.duration = Int(durationLabel.text!) ?? 30
+        if (segue.identifier == "name") {
+            var vc = segue.destination as! ViewController
+            vc.modalPresentationStyle = .fullScreen
+            vc.socialDistance = Int(self.distance) ?? 50
+            vc.initialCases = Int(populationLabel.text!) ?? 100
+            vc.initialSick = Int(sickLabel.text!) ?? 2
+            vc.duration = Int(durationLabel.text!) ?? 30
+        }
+        
         
     }
     

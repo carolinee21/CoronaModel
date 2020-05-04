@@ -19,8 +19,8 @@ class ViewController: UIViewController, SimulationUIDelegate {
     @IBOutlet var recoveredLabel: UILabel!
     @IBOutlet var deadLabel: UILabel!
     @IBOutlet var rNaughtLabel: UILabel!
-    @IBOutlet var daysLabel: UILabel!
     @IBOutlet var GameSKView : SKView!
+    @IBOutlet weak var durationLabel: UILabel!
     
     // User input as passed in from the root LaunchViewController
     var socialDistance = 0
@@ -84,7 +84,52 @@ class ViewController: UIViewController, SimulationUIDelegate {
     func endSimulation(healthy: Int, infected: Int, recovered: Int, dead: Int, rNaught: Double) {
         //print("over")
         // here, can either segue to a results page, or present these to the user in a bubble pop-up.
+        
+        // this calls the segue with a small delay just so it looks a little better
+        DispatchQueue.main.asyncAfter(deadline:.now() + 0.5, execute: {
+            self.performSegue(withIdentifier: "end", sender: self)
+        })
+        
 
+    }
+    
+    // Passes in input information to the results controller
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "end" {
+            var vc = segue.destination as! ResultsViewController
+            vc.modalPresentationStyle = .fullScreen
+            
+            // get all of the properties from the labels to pass
+            // into the final screen
+            let fatalities = deadLabel.text!.components(separatedBy: ":")[1]
+            print("fatalities is " + fatalities)
+            if Int(fatalities) == nil {
+                print("the int of fatalities is nil")
+            } else {
+                print("hey its not nil")
+            }
+            vc.fatalities = fatalities
+            
+            let rNaught = rNaughtLabel.text!.components(separatedBy: ":")[1]
+            vc.rNaught = rNaught
+            
+            let healthy = healthyLabel.text!.components(separatedBy: ":")[1]
+            vc.healthy = healthy
+           
+            let recovered = recoveredLabel.text!.components(separatedBy: ":")[1]
+            vc.recovered = recovered
+            
+            let infected = infectedLabel.text!.components(separatedBy: ":")[1]
+            vc.infected = infected
+        }
+        
+        
+        
+    }
+    
+    
+    func updateDuration(timeLeft : Int) {
+        durationLabel.text = "Days Left: \(timeLeft)"
     }
     
     

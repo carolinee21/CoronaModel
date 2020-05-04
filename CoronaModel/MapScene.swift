@@ -11,6 +11,7 @@ import SpriteKit
 protocol SimulationUIDelegate : class {
     func updateCount(healthy: Int, infected: Int, recovered: Int, dead: Int)
     func updateR0(rNaught: Double)
+    func updateDuration(timeLeft : Int)
     func endSimulation(healthy: Int, infected: Int, recovered: Int, dead: Int, rNaught: Double)
 }
 
@@ -40,7 +41,9 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         getInitialCases(numHealthy: initialCases - initialSick, numInfected: initialSick)
         let timeNow = Date()
+        updateCountDelegate?.updateDuration(timeLeft: Int(duration))
         simulationOverDate = timeNow.addingTimeInterval(duration)
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -64,12 +67,14 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         let rightNow = Date()
         let remainingSeconds = simulationOverDate.timeIntervalSince(rightNow)
         let remainingTime = max(remainingSeconds, 0)
+        updateCountDelegate?.updateDuration(timeLeft: Int(remainingTime))
         if (remainingTime == 0) {
             for node in self.children {
                 if let node = node as? Case {
                     node.removeAllActions()
                 }
             }
+            self.view?.isPaused = true
             updateCountDelegate?.endSimulation(healthy: countHealthy, infected: countInfected, recovered: countRecovered, dead: countDead, rNaught: RNought)
         }
         
