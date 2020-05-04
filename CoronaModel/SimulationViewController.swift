@@ -11,7 +11,7 @@ import MapKit
 import Firebase
 import SpriteKit
 
-class ViewController: UIViewController, UpdateCountDelegate {
+class ViewController: UIViewController, SimulationUIDelegate {
     
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var healthyLabel: UILabel!
@@ -63,17 +63,7 @@ class ViewController: UIViewController, UpdateCountDelegate {
         centerMapOnPenn()
         
     }
-    
-    
-    /*
-     Listener for simulate button at the top right 
-     */
-    @IBAction func buttonTapped(_ sender: UIButton) {
-        
-        
-    }
-    
-    
+
     func centerMapOnPenn() {
         let region = MKCoordinateRegion(center: centralCoord, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         mapView.setRegion(region, animated: true)
@@ -91,6 +81,11 @@ class ViewController: UIViewController, UpdateCountDelegate {
         rNaughtLabel.text = String(format: "R0: %.2f", rNaught)
     }
     
+    func endSimulation(healthy: Int, infected: Int, recovered: Int, dead: Int, rNaught: Double) {
+        //print("over")
+        // here, can either segue to a results page, or present these to the user in a bubble pop-up.
+
+    }
     
     
 }

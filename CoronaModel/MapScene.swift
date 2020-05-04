@@ -8,9 +8,10 @@
 import Foundation
 import SpriteKit
 
-protocol UpdateCountDelegate : class {
+protocol SimulationUIDelegate : class {
     func updateCount(healthy: Int, infected: Int, recovered: Int, dead: Int)
     func updateR0(rNaught: Double)
+    func endSimulation(healthy: Int, infected: Int, recovered: Int, dead: Int, rNaught: Double)
 }
 
 class MapScene : SKScene, SKPhysicsContactDelegate {
@@ -24,9 +25,9 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     var initialSick : Int = 0
     var duration : TimeInterval = 0
     var RNought : Double = 0
-    weak var updateCountDelegate : UpdateCountDelegate? = nil
+    var simulationOverDate : Date = Date()
     
-    
+    weak var updateCountDelegate : SimulationUIDelegate? = nil
 
 
     override func didMove(to view: SKView) {
@@ -38,7 +39,8 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         physicsBody?.friction = 0
         physicsWorld.contactDelegate = self
         getInitialCases(numHealthy: initialCases - initialSick, numInfected: initialSick)
-        
+        let timeNow = Date()
+        simulationOverDate = timeNow.addingTimeInterval(duration)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -59,21 +61,20 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
         updateCountDelegate?.updateCount(healthy: countHealthy, infected: countInfected, recovered: countRecovered, dead: countDead)
         
         updateR0()
-        
+        let rightNow = Date()
+        let remainingSeconds = simulationOverDate.timeIntervalSince(rightNow)
+        let remainingTime = max(remainingSeconds, 0)
+        if (remainingTime == 0) {
+            for node in self.children {
+                if let node = node as? Case {
+                    node.removeAllActions()
+                }
+            }
+            updateCountDelegate?.endSimulation(healthy: countHealthy, infected: countInfected, recovered: countRecovered, dead: countDead, rNaught: RNought)
+        }
         
     }
-    
-    
-    // TODO implement timer correctly
-//    private func remainingTime() -> TimeInterval {
-//           let rightNow = Date()
-//           let remainingSeconds = finishedBy.timeIntervalSince(rightNow)
-//           return max(remainingSeconds, 0)
-//    }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // I think this is where we could handle user input/touch, if we want
-    }
     
     func getInitialCases(numHealthy: Int, numInfected: Int) {
         for _ in 0..<numHealthy {

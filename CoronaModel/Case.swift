@@ -58,6 +58,7 @@ class Case: SKSpriteNode {
             if self.willDie {
                 self.status = .dead
                 super.color = .black
+                self.removeAllActions()
                 return true
             } else {
                 self.status = .recovered
