@@ -42,14 +42,13 @@ class ResultsViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+        // Passes in input information to the main ViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "startOver") {
+            if let vc = segue.destination as? LaunchViewController {
+                vc.modalPresentationStyle = .fullScreen
+            }
+        }
     }
-    */
 
 }

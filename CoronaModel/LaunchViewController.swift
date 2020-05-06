@@ -54,36 +54,29 @@ class LaunchViewController: UIViewController {
      */
     @IBAction func runSimulation(_ sender: UIButton) {
         self.distance = distanceLabel.text!
-        performSegue(withIdentifier: "name", sender: self)
+        performSegue(withIdentifier: "launch", sender: self)
         
     }
     
     // Passes in input information to the main ViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "name") {
-            var vc = segue.destination as! ViewController
-            vc.modalPresentationStyle = .fullScreen
-            vc.socialDistance = Int(self.distance) ?? 50
-            vc.initialCases = Int(populationLabel.text!) ?? 100
-            vc.initialSick = Int(sickLabel.text!) ?? 2
-            vc.duration = Int(durationLabel.text!) ?? 30
+        if (segue.identifier == "launch") {
+            
+            if var vc = segue.destination as? ViewController {
+                vc.modalPresentationStyle = .fullScreen
+                vc.socialDistance = Int(self.distance) ?? 50
+                vc.initialCases = Int(populationLabel.text!) ?? 100
+                vc.initialSick = Int(sickLabel.text!) ?? 2
+                vc.duration = Int(durationLabel.text!) ?? 30
+            }
+            
+            self.populationLabel.text! = ""
+            self.sickLabel.text! = ""
+            self.durationLabel.text! = ""
         }
         
-        
     }
     
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 /*

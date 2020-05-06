@@ -11,7 +11,7 @@ import MapKit
 import Firebase
 import SpriteKit
 
-class ViewController: UIViewController, SimulationUIDelegate {
+class ViewController: UIViewController, SimulationUIDelegate, MKMapViewDelegate {
     
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var healthyLabel: UILabel!
@@ -73,7 +73,7 @@ class ViewController: UIViewController, SimulationUIDelegate {
         healthyLabel.text = "Healthy: \(healthy)"
         infectedLabel.text = "Infected: \(infected)"
         recoveredLabel.text = "Recovered: \(recovered)"
-        deadLabel.text = "Dead: \(dead)"
+        deadLabel.text = "Fatalities: \(dead)"
 
     }
 
@@ -87,7 +87,7 @@ class ViewController: UIViewController, SimulationUIDelegate {
         
         // this calls the segue with a small delay just so it looks a little better
         DispatchQueue.main.asyncAfter(deadline:.now() + 0.5, execute: {
-            self.performSegue(withIdentifier: "end", sender: self)
+            self.performSegue(withIdentifier: "results", sender: self)
         })
         
 
@@ -95,12 +95,10 @@ class ViewController: UIViewController, SimulationUIDelegate {
     
     // Passes in input information to the results controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "end" {
+        if segue.identifier == "results" {
             var vc = segue.destination as! ResultsViewController
             vc.modalPresentationStyle = .fullScreen
             
-            // get all of the properties from the labels to pass
-            // into the final screen
             let fatalities = deadLabel.text!.components(separatedBy: ":")[1]
             print("fatalities is " + fatalities)
             if Int(fatalities) == nil {
@@ -122,12 +120,9 @@ class ViewController: UIViewController, SimulationUIDelegate {
             let infected = infectedLabel.text!.components(separatedBy: ":")[1]
             vc.infected = infected
         }
-        
-        
-        
+
     }
-    
-    
+        
     func updateDuration(timeLeft : Int) {
         durationLabel.text = "Days Left: \(timeLeft)"
     }
@@ -135,8 +130,3 @@ class ViewController: UIViewController, SimulationUIDelegate {
     
 }
 
-// MARK: MKMapViewDelegate
-extension ViewController: MKMapViewDelegate {
-    
-    
-}

@@ -180,7 +180,8 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
     func updateR0() {
         var totalInfectedCases = 0
         var infectedBy = 0
-       
+        
+        
         for node in self.children {
             if let node = node as? Case {
                 if (node.status == .infected || node.status == .recovered) {
@@ -189,7 +190,10 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
                 infectedBy += node.infectedByMe
             }
         }
-        RNought = Double(infectedBy) / Double(totalInfectedCases)
+        let socialMult : Double = 100.0/Double(socialDistance^2)
+
+        
+        let RNought : Double = Double(infectedBy) * socialMult / Double(totalInfectedCases)
         updateCountDelegate?.updateR0(rNaught: RNought)
 
     }
