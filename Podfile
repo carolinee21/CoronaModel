@@ -3,10 +3,10 @@
 
 target 'CoronaModel' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+  
 
   # Pods for Corona Model
-  pod 'Firebase/Database'
-  pod 'Firebase/Core'
+  pod 'Firebase/Database', :modular_headers => true
+  pod 'Firebase/Core', :modular_headers => true
 
 end

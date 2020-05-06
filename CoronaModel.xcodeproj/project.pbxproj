@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		167CBD9224593AE6006D2383 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CBD9124593AE6006D2383 /* LaunchViewController.swift */; };
 		167CBD94245A7AF2006D2383 /* CountdownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CBD93245A7AF2006D2383 /* CountdownLabel.swift */; };
+		76A300394822C22661907CD6 /* libPods-CoronaModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60740584AB977889477404A8 /* libPods-CoronaModel.a */; };
 		820F51092446588300A59340 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F51082446588300A59340 /* AppDelegate.swift */; };
 		820F510B2446588300A59340 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510A2446588300A59340 /* SceneDelegate.swift */; };
 		820F510D2446588300A59340 /* SimulationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510C2446588300A59340 /* SimulationViewController.swift */; };
@@ -22,7 +23,6 @@
 		82AE4DBC245754A0000A2A80 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AE4DBB245754A0000A2A80 /* MapScene.swift */; };
 		82AE4E0024575BAA000A2A80 /* MapScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 82AE4DFF24575BAA000A2A80 /* MapScene.sks */; };
 		82C0B8D0245F8F9500C15006 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C0B8CF245F8F9500C15006 /* ResultsViewController.swift */; };
-		AE62C6434677119073316C11 /* Pods_CoronaModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,9 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoronaModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		167CBD9124593AE6006D2383 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		167CBD93245A7AF2006D2383 /* CountdownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownLabel.swift; sourceTree = "<group>"; };
+		60740584AB977889477404A8 /* libPods-CoronaModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoronaModel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DDA341EA72C89610F002A2E /* Pods-CoronaModel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoronaModel.debug.xcconfig"; path = "Target Support Files/Pods-CoronaModel/Pods-CoronaModel.debug.xcconfig"; sourceTree = "<group>"; };
 		820F51052446588300A59340 /* CoronaModel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoronaModel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		820F51082446588300A59340 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE62C6434677119073316C11 /* Pods_CoronaModel.framework in Frameworks */,
+				76A300394822C22661907CD6 /* libPods-CoronaModel.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 		3320EEEBC50C04B54A2B707C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */,
+				60740584AB977889477404A8 /* libPods-CoronaModel.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -184,7 +184,6 @@
 				820F51012446588300A59340 /* Sources */,
 				820F51022446588300A59340 /* Frameworks */,
 				820F51032446588300A59340 /* Resources */,
-				2FD151E4D80F6B1B5F94D7E3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -303,23 +302,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2FD151E4D80F6B1B5F94D7E3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CoronaModel/Pods-CoronaModel-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CoronaModel/Pods-CoronaModel-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CoronaModel/Pods-CoronaModel-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3DAD4E6DCF22F0AB54E4B4A3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -532,13 +514,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y5D4N47VR3;
+				DEVELOPMENT_TEAM = Z539TA7ZP5;
 				INFOPLIST_FILE = CoronaModel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = CS.CoronaModel;
+				PRODUCT_BUNDLE_IDENTIFIER = CoronaModel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -551,13 +533,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y5D4N47VR3;
+				DEVELOPMENT_TEAM = Z539TA7ZP5;
 				INFOPLIST_FILE = CoronaModel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = CS.CoronaModel;
+				PRODUCT_BUNDLE_IDENTIFIER = CoronaModel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
