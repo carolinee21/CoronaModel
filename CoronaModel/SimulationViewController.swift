@@ -8,7 +8,6 @@
 
 import UIKit
 import MapKit
-import Firebase
 import SpriteKit
 
 class ViewController: UIViewController, SimulationUIDelegate, MKMapViewDelegate {
