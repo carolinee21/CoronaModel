@@ -7,15 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		167CBD9224593AE6006D2383 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CBD9124593AE6006D2383 /* LaunchViewController.swift */; };
+		167CBD94245A7AF2006D2383 /* CountdownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CBD93245A7AF2006D2383 /* CountdownLabel.swift */; };
 		820F51092446588300A59340 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F51082446588300A59340 /* AppDelegate.swift */; };
 		820F510B2446588300A59340 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510A2446588300A59340 /* SceneDelegate.swift */; };
-		820F510D2446588300A59340 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510C2446588300A59340 /* ViewController.swift */; };
+		820F510D2446588300A59340 /* SimulationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F510C2446588300A59340 /* SimulationViewController.swift */; };
 		820F51102446588300A59340 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 820F510E2446588300A59340 /* Main.storyboard */; };
 		820F51122446588500A59340 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 820F51112446588500A59340 /* Assets.xcassets */; };
 		820F51152446588500A59340 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 820F51132446588500A59340 /* LaunchScreen.storyboard */; };
 		820F51202446588500A59340 /* CoronaModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F511F2446588500A59340 /* CoronaModelTests.swift */; };
 		820F512B2446588600A59340 /* CoronaModelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F512A2446588600A59340 /* CoronaModelUITests.swift */; };
 		820F5139244669CB00A59340 /* CaseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820F5138244669CB00A59340 /* CaseAnnotation.swift */; };
+		8296F4A324580F36002B11BD /* Case.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8296F4A224580F36002B11BD /* Case.swift */; };
+		82AE4DBC245754A0000A2A80 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AE4DBB245754A0000A2A80 /* MapScene.swift */; };
+		82AE4E0024575BAA000A2A80 /* MapScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 82AE4DFF24575BAA000A2A80 /* MapScene.sks */; };
+		82C0B8D0245F8F9500C15006 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C0B8CF245F8F9500C15006 /* ResultsViewController.swift */; };
 		AE62C6434677119073316C11 /* Pods_CoronaModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,11 +44,13 @@
 
 /* Begin PBXFileReference section */
 		118BE21A8291F92CAD547712 /* Pods_CoronaModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoronaModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		167CBD9124593AE6006D2383 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		167CBD93245A7AF2006D2383 /* CountdownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownLabel.swift; sourceTree = "<group>"; };
 		7DDA341EA72C89610F002A2E /* Pods-CoronaModel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoronaModel.debug.xcconfig"; path = "Target Support Files/Pods-CoronaModel/Pods-CoronaModel.debug.xcconfig"; sourceTree = "<group>"; };
 		820F51052446588300A59340 /* CoronaModel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoronaModel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		820F51082446588300A59340 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		820F510A2446588300A59340 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		820F510C2446588300A59340 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		820F510C2446588300A59340 /* SimulationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationViewController.swift; sourceTree = "<group>"; };
 		820F510F2446588300A59340 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		820F51112446588500A59340 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		820F51142446588500A59340 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +62,10 @@
 		820F512A2446588600A59340 /* CoronaModelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoronaModelUITests.swift; sourceTree = "<group>"; };
 		820F512C2446588600A59340 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		820F5138244669CB00A59340 /* CaseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseAnnotation.swift; sourceTree = "<group>"; };
+		8296F4A224580F36002B11BD /* Case.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Case.swift; sourceTree = "<group>"; };
+		82AE4DBB245754A0000A2A80 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
+		82AE4DFF24575BAA000A2A80 /* MapScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MapScene.sks; sourceTree = "<group>"; };
+		82C0B8CF245F8F9500C15006 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		977300069807DFBD7D2A1281 /* Pods-CoronaModel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoronaModel.release.xcconfig"; path = "Target Support Files/Pods-CoronaModel/Pods-CoronaModel.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,12 +130,18 @@
 			children = (
 				820F51082446588300A59340 /* AppDelegate.swift */,
 				820F510A2446588300A59340 /* SceneDelegate.swift */,
-				820F510C2446588300A59340 /* ViewController.swift */,
+				820F510C2446588300A59340 /* SimulationViewController.swift */,
+				82C0B8CF245F8F9500C15006 /* ResultsViewController.swift */,
+				167CBD9124593AE6006D2383 /* LaunchViewController.swift */,
+				82AE4DBB245754A0000A2A80 /* MapScene.swift */,
+				8296F4A224580F36002B11BD /* Case.swift */,
 				820F510E2446588300A59340 /* Main.storyboard */,
 				820F51112446588500A59340 /* Assets.xcassets */,
 				820F51132446588500A59340 /* LaunchScreen.storyboard */,
 				820F51162446588500A59340 /* Info.plist */,
 				820F5138244669CB00A59340 /* CaseAnnotation.swift */,
+				82AE4DFF24575BAA000A2A80 /* MapScene.sks */,
+				167CBD93245A7AF2006D2383 /* CountdownLabel.swift */,
 			);
 			path = CoronaModel;
 			sourceTree = "<group>";
@@ -264,6 +282,7 @@
 				820F51152446588500A59340 /* LaunchScreen.storyboard in Resources */,
 				820F51122446588500A59340 /* Assets.xcassets in Resources */,
 				820F51102446588300A59340 /* Main.storyboard in Resources */,
+				82AE4E0024575BAA000A2A80 /* MapScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,9 +349,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				820F510D2446588300A59340 /* ViewController.swift in Sources */,
+				167CBD94245A7AF2006D2383 /* CountdownLabel.swift in Sources */,
+				82AE4DBC245754A0000A2A80 /* MapScene.swift in Sources */,
+				8296F4A324580F36002B11BD /* Case.swift in Sources */,
+				820F510D2446588300A59340 /* SimulationViewController.swift in Sources */,
 				820F51092446588300A59340 /* AppDelegate.swift in Sources */,
+				82C0B8D0245F8F9500C15006 /* ResultsViewController.swift in Sources */,
 				820F5139244669CB00A59340 /* CaseAnnotation.swift in Sources */,
+				167CBD9224593AE6006D2383 /* LaunchViewController.swift in Sources */,
 				820F510B2446588300A59340 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
