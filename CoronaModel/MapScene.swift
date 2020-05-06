@@ -190,7 +190,7 @@ class MapScene : SKScene, SKPhysicsContactDelegate {
                 infectedBy += node.infectedByMe
             }
         }
-        let socialMult : Double = 100.0/Double(socialDistance^2)
+        let socialMult : Double = 80.0/Double(socialDistance)
 
         
         let RNought : Double = Double(infectedBy) * socialMult / Double(totalInfectedCases)
